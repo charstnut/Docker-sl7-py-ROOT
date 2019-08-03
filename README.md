@@ -2,6 +2,6 @@ This docker image is based on Scientific Linux 7 (Nitrogen) with python (pip) an
 
 Master branch will be conservative build (python2, ROOT5).
 
-For python3 and ROOT6 please checkout other tags.
+For python3 and ROOT6 please checkout other branches.
 
 Based on https://github.com/root-project/root-docker.
