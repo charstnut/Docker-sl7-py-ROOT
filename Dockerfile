@@ -6,8 +6,9 @@ ENV ROOT_VERSION=6.18.00
 COPY packages packages
 
 RUN yum update -y
+RUN yum remove -y systemd
 RUN yum install -y yum-conf-epel.noarch
-RUN yum install -y $(cat packages) --skip-broken
+RUN yum install -y $(cat packages)
 RUN rm -f /packages
 
 # Clean
