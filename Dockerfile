@@ -7,7 +7,7 @@ COPY packages packages
 
 RUN yum update -y
 RUN yum install -y yum-conf-epel.noarch
-RUN yum install -y $(cat packages)
+RUN yum install -y $(cat packages) --skip-broken
 RUN rm -f /packages
 
 # Clean
