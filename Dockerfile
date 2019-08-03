@@ -5,10 +5,10 @@ ENV ROOT_VERSION=6.18.00
 
 COPY packages packages
 
-RUN yum update -q -y \
-    && yum install -y -q epel-release \
-    && yum install -y -q $(cat packages) \
-    && rm -f /packages
+RUN yum update -y
+RUN yum install -y epel-release
+RUN yum install -y $(cat packages)
+RUN rm -f /packages
 
 # Clean
 RUN yum clean all && rm -rf /var/cache/yum

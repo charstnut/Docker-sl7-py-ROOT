@@ -1,6 +1,5 @@
 avahi-compat-libdns_sd-devel \
 avahi-devel \
-binutils \
 cfitsio-devel \
 cmake3 \
 davix-devel \
@@ -34,7 +33,6 @@ libxml2-devel \
 lz4-devel \
 make \
 mariadb-devel \
-ncurses-libs \
 openjpeg-devel \
 openldap-devel \
 openssl-devel \
