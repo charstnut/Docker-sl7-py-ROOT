@@ -7,12 +7,8 @@ ENV ROOT_VERSION=5.34.36
 COPY packages packages
 
 RUN yum update -y
-RUN yum remove -y systemd
 RUN yum install -y yum-conf-epel.noarch
-RUN yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 RUN yum install -y $(cat packages)
-ENV PATH=$PATH:/usr/pgsql-9.6/bin/
-
 RUN rm -f /packages
 
 # Clean
@@ -31,14 +27,42 @@ RUN curl -O https://root.cern.ch/download/root_v${ROOT_VERSION}.source.tar.gz \
 
 # Install
 WORKDIR /tmp
-RUN cmake ${HOME}/root-${ROOT_VERSION}/ \
-    -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -Dfftw3:BOOL=ON -DPYTHON_EXECUTABLE=$(which python) \
-    -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
-    -DPYTHON_LIBRARY=$(python -c "from distutils.sysconfig import get_config_var;from os.path import dirname,join ; print(join(dirname(get_config_var('LIBPC')),get_config_var('LDLIBRARY')))") \
-    -Droofit:BOOL=ON -Dmathmore:BOOL=ON -Dminuit:BOOL=ON -Dminuit2:BOOL=ON -Dgsl_shared:BOOL=ON -Dqt:BOOL=ON -Dpgsql:BOOL=ON
+RUN cmake ${HOME}/root-${ROOT_VERSION}/ -DCMAKE_C_COMPILER=$(which gcc) \
+    -DCMAKE_CXX_COMPILER=$(which g++) -Dfail-on-missing=ON \
+    -Dfftw3:BOOL=ON -Droofit:BOOL=ON \
+    -Dmathmore:BOOL=ON \
+    -Dminuit:BOOL=ON \
+    -Dminuit2:BOOL=ON \
+    -Dgsl_shared:BOOL=ON \
+    -Dqt:BOOL=ON \
+    -Dpgsql:BOOL=ON \
+    -Dbuiltin_afterimage=OFF \
+    -Dbuiltin_ftgl=OFF \
+    -Dbuiltin_gl2ps=OFF \
+    -Dbuiltin_glew=OFF \
+    -Dbuiltin_tbb=ON \
+    -Dbuiltin_unuran=OFF \
+    -Dbuiltin_vdt=ON \
+    -Dbuiltin_veccore=ON \
+    -Dbuiltin_xrootd=OFF \
+    -Dgfal=OFF \
+    -Darrow=OFF \
+    -Dcastor=OFF \
+    -Dchirp=OFF \
+    -Dgeocad=OFF \
+    -Dglite=OFF \
+    -Dhdfs=OFF \
+    -Dmonalisa=OFF \
+    -Doracle=OFF \
+    -Dpythia6=OFF \
+    -Drfio=OFF \
+    -Droot7=OFF \
+    -Dsapdb=OFF \
+    -Dsrp=OFF \
+    -Dvc=OFF
 
-RUN cmake --build . -- -j$(nproc)
-RUN cmake --build . --target install \
+RUN cmake --build . -- -j$(nproc) \
+    && cmake --build . --target install \
     && rm -rf ${HOME}/root-${ROOT_VERSION} /tmp/*
 
 ENV ROOTSYS         "/usr/local"

@@ -10,8 +10,6 @@ gcc
 gcc-c++
 gcc-gfortran
 gdb
-gfal2-all
-gfal2-devel
 giflib-devel
 git
 gl2ps-devel
@@ -40,8 +38,8 @@ openjpeg-devel
 openldap-devel
 openssl-devel
 pcre-devel
-postgresql96
-postgresql96-devel
+postgresql
+postgresql-devel
 pythia8-devel
 python
 python-devel
