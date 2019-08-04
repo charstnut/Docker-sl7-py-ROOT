@@ -1,7 +1,7 @@
 avahi-compat-libdns_sd-devel
 avahi-devel
 cfitsio-devel
-cmake3
+cmake
 davix-devel
 dcap-devel
 fftw-devel
@@ -9,6 +9,7 @@ ftgl-devel
 gcc
 gcc-c++
 gcc-gfortran
+gdb
 gfal2-all
 gfal2-devel
 giflib-devel
@@ -33,14 +34,18 @@ libxml2-devel
 lz4-devel
 make
 mariadb-devel
+mesa-libGL-devel
+mesa-libGLU-devel
 openjpeg-devel
 openldap-devel
 openssl-devel
 pcre-devel
-postgresql-devel
+postgresql96
+postgresql96-devel
 pythia8-devel
 python
 python-devel
+python-pip
 qt-devel
 readline-devel
 redhat-lsb-core
@@ -50,8 +55,6 @@ srm-ifce-devel
 unixODBC-devel
 urw-fonts
 xorg-x11-fonts-ISO8859-1-75d
-xrootd-server-devel
-xrootd-client
 xxhash-devel
 xz-devel
 zlib-devel
