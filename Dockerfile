@@ -65,20 +65,15 @@ RUN cmake --build . -- -j$(nproc) \
     && cmake --build . --target install \
     && rm -rf ${HOME}/root-${ROOT_VERSION} /tmp/*
 
-ENV ROOTSYS         "/usr/local"
-ENV PATH            "$ROOTSYS/bin:$PATH"
-ENV LD_LIBRARY_PATH "$ROOTSYS/lib:$LD_LIBRARY_PATH"
-ENV PYTHONPATH      "$ROOTSYS/lib:$PYTHONPATH"
+ENV ROOTSYS="/usr/local"
+ENV PATH="$ROOTSYS/bin:$PATH"
+ENV LD_LIBRARY_PATH="$ROOTSYS/lib:$LD_LIBRARY_PATH"
+ENV PYTHONPATH="$ROOTSYS/lib:$PYTHONPATH"
 ENV DISPLAY=0
 RUN echo ". /usr/local/bin/thisroot.sh" >> ~/.bashrc
-WORKDIR /root
-
-# # TODO: Get latest tini version automatically (see anaconda docker)
-# # ENV TINI_VERSION v0.18.0
-# # ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
-# # RUN chmod +x /usr/bin/tini
+RUN /sbin/ldconfig
 
 CMD [ "/bin/bash" ]
 
-# # Another way of installing ROOT (in case building fails)
-# # https://redmine.jlab.org/projects/podd/wiki/ROOT_Installation_Guide
+# Another way of installing ROOT (in case building fails)
+# https://redmine.jlab.org/projects/podd/wiki/ROOT_Installation_Guide
