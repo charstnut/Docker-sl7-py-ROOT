@@ -1,5 +1,3 @@
-avahi-compat-libdns_sd-devel
-avahi-devel
 cfitsio-devel
 cmake
 davix-devel
@@ -43,6 +41,7 @@ python
 python-devel
 python-pip
 qt-devel
+tkinter
 readline-devel
 redhat-lsb-core
 redhat-rpm-config
@@ -50,7 +49,6 @@ sqlite-devel
 srm-ifce-devel
 unixODBC-devel
 urw-fonts
-xorg-x11-fonts-ISO8859-1-75d
 xxhash-devel
 xz-devel
 zlib-devel
