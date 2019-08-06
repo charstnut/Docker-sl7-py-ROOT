@@ -6,17 +6,25 @@ ENV ROOT_VERSION=5.34.36
 
 COPY packages packages
 
+RUN yum remove -y systemd
 RUN yum update -y
 RUN yum install -y yum-conf-epel.noarch
 RUN yum install -y $(cat packages)
 RUN rm -f /packages
 
+### PSQL ###
+
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+RUN yum install -y postgresql96 postgresql96-devel
+ENV PATH=/usr/pgsql-9.6/bin:$PATH \
+    LD_LIBRARY_PATH=/usr/pgsql-9.6/lib:$LD_LIBRARY_PATH
+
 # Clean
 RUN yum clean all && rm -rf /var/cache/yum
 
-# Set up pip
+# Set up pip (numpy + psycopg2)
 RUN pip install --no-cache-dir --upgrade pip setuptools
-RUN pip install numpy psycopg2
+RUN pip install --no-cache-dir numpy psycopg2
 
 # Download ROOT
 WORKDIR /root
@@ -26,8 +34,7 @@ RUN curl -O https://root.cern.ch/download/root_v${ROOT_VERSION}.source.tar.gz \
     && rm -rf ${HOME}/root_v${ROOT_VERSION}.source.tar.gz
 
 # Install
-WORKDIR /tmp
-RUN cmake ${HOME}/root-${ROOT_VERSION}/ -DCMAKE_C_COMPILER=$(which gcc) \
+WORKDIR /tmpcmake ${HOME}/root-${ROOT_VERSION}/ -DCMAKE_C_COMPILER=$(which gcc) \
     -DCMAKE_CXX_COMPILER=$(which g++) -Dfail-on-missing=ON \
     -Dfftw3:BOOL=ON -Droofit:BOOL=ON \
     -Dmathmore:BOOL=ON \
@@ -36,6 +43,8 @@ RUN cmake ${HOME}/root-${ROOT_VERSION}/ -DCMAKE_C_COMPILER=$(which gcc) \
     -Dgsl_shared:BOOL=ON \
     -Dqt:BOOL=ON \
     -Dpgsql:BOOL=ON \
+    -DPOSTGRESQL_INCLUDE_DIR=/usr/pgsql-9.6/include \
+    -DPOSTGRESQL_LIBRARIES=/usr/pgsql-9.6/lib \
     -Dbuiltin_afterimage=OFF \
     -Dbuiltin_ftgl=OFF \
     -Dbuiltin_gl2ps=OFF \

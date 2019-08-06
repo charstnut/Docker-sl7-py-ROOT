@@ -38,8 +38,6 @@ openjpeg-devel
 openldap-devel
 openssl-devel
 pcre-devel
-postgresql
-postgresql-devel
 pythia8-devel
 python
 python-devel
